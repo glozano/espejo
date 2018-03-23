@@ -1,11 +1,12 @@
 function init() {
 
 	var main = document.querySelector('main');
+	var bgCamera = document.getElementById('bg');
 	var mosaicContainer = document.getElementById('mosaic');
 	var videoWidth= 0, videoHeight = 0;
 	var videoElement;
 	var shooter;
-	var imagesPerRow = 5;
+	// var imagesPerRow = 2;
 	var maxImages = 20;
 
 	window.addEventListener('resize', onResize);
@@ -17,12 +18,14 @@ function init() {
 		}
 
 		videoElement = videoEl;
-		videoElement.width = width / 4;
-		videoElement.height = height / 4;
-		videoWidth = width;
-		videoHeight = height;
+
+		videoWidth = width / 4;
+		videoHeight = height / 4;
 
 		main.appendChild(videoElement);
+
+		videoElement.width = width / 4;
+        videoElement.height = height / 4;
 
 		shooter = new VideoShooter(videoElement);
 
@@ -61,7 +64,12 @@ function init() {
 
 	function getImageSize() {
 		var windowWidth = window.innerWidth;
-		var imageWidth = Math.round(windowWidth / imagesPerRow);
+		if(windowWidth < 1000){
+			var imageWidth = Math.round(windowWidth / 2)-1;
+            maxImages = 10;
+		}else{
+            var imageWidth = Math.round(windowWidth / 5)-1;
+		}
 		var imageHeight = (imageWidth / videoWidth) * videoHeight;
 
 		return [ imageWidth, imageHeight ];
@@ -84,8 +92,8 @@ function init() {
 			img.style.height = imageHeight;
 		}
 
-		videoElement.style.width = imageWidth;
-		videoElement.style.height = imageHeight;
+		// videoElement.style.width = imageWidth;
+		// videoElement.style.height = imageHeight;
 	
 	}
 
